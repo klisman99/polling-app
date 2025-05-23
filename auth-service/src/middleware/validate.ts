@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 
+const validateRequest = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+        return;
+    }
+    next();
+};
+
 export const validateSignup = [
     body('email').isEmail().withMessage('Invalid email format'),
     body('password')
@@ -10,23 +19,11 @@ export const validateSignup = [
         .optional()
         .isIn(['user', 'admin'])
         .withMessage('Role must be user or admin'),
-    (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(400).json({ errors: errors.array() });
-        }
-        next();
-    },
+    validateRequest,
 ];
 
 export const validateLogin = [
     body('email').isEmail().withMessage('Invalid email format'),
     body('password').notEmpty().withMessage('Password is required'),
-    (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(400).json({ errors: errors.array() });
-        }
-        next();
-    },
+    validateRequest,
 ];
