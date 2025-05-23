@@ -9,5 +9,13 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  poll-service:
+    build:
+      context: ./poll-service
+      dockerfile: Dockerfile
+    ports:
+      - '3002:3002'
+    depends_on:
+      - postgres
 volumes:
   postgres_data:
