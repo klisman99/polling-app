@@ -17,5 +17,15 @@ services:
       - '3002:3002'
     depends_on:
       - postgres
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/polling_app
+  mongo:
+    image: mongo:8
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
 volumes:
   postgres_data:
+  mongo_data:
