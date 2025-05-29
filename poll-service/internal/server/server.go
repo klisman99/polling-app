@@ -33,16 +33,6 @@ func NewServer() *Server {
 	return srv
 }
 
-func (s *Server) setupRoutes() {
-	s.Router.GET("/health", func(c *gin.Context) {
-		if err := s.DB.Client.Ping(c, nil); err != nil {
-			c.JSON(500, gin.H{"status": "MongoDB is not reachable"})
-			return
-		}
-		c.JSON(200, gin.H{"status": "Poll Service is running"})
-	})
-}
-
 func (s *Server) Run(addr string) error {
 	defer s.DB.Close()
 	return s.Router.Run(addr)
