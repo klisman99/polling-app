@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /app/poll-service ./cmd/poll-service
+RUN go build -o /app/poll-service ./cmd
 
 EXPOSE 3002
 

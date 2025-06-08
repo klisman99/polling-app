@@ -20,6 +20,8 @@ services:
       - mongo
     environment:
       - MONGO_URI=mongodb://mongo:27017/polling_app
+      - DB_NAME=polling_app
+      - PORT=3002
   mongo:
     image: mongo:8
     ports:
